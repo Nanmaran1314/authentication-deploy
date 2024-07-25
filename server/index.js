@@ -53,19 +53,29 @@ mongoose.connect(process.env.MONGODB_URL, {
   });
 
 
-app.post('/register', async  (req, res) => {
+  app.post('/register', async (req, res) => {
     try {
-        const newPass = await bcrypt.hash(req.body.password, 10);
-        const user = await userSchema.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: newPass,   
-        }); 
+        const { name, email, password } = req.body;
+
+        // Check if user already exists
+        const existingUser = await userSchema.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ status: 'error', message: 'Email already registered' });
+        }
+
+        const newPass = await bcrypt.hash(password, 10);
+        await userSchema.create({
+            name,
+            email,
+            password: newPass,
+        });
+
         res.status(201).json({ status: 'success' });
-        } catch (error) {
-            res.status(500).json({ status: 'error', message: error.message });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
     }
 });
+
 
 app.post('/api/login', async (req, res) => {
     const user = await userSchema.findOne({

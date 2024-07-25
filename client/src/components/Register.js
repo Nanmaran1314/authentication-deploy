@@ -50,34 +50,43 @@ function Register() {
 
 
   async function registerUser(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     const isValidation = validateFields();
     if (isValidation) {
-      alert(isValidation)
+      alert(isValidation);
       return;
     }
 
-    const response = await fetch(`${process.env.REACT_APP_API_URL}register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name, email, password
-      })
-    })
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password
+            })
+        });
 
-    const data = await response.json()
-    // console.log(data)
-    if (data.status === 'success') {
-      alert("Successful")
-      navigate('/login')
+        const data = await response.json();
+        if (response.ok) {
+            if (data.status === 'success') {
+                alert("Registration Successful");
+                navigate('/login');
+            } else {
+                alert(data.message || "An error occurred");
+            }
+        } else {
+            alert(data.message || "An error occurred");
+        }
+    } catch (error) {
+        alert("An error occurred while registering");
     }
-    else {
-      alert("Check you already have an account")
-    }
-  }
+}
+
 
   return (
     <>
