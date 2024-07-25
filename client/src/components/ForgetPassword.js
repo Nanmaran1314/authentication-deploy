@@ -22,7 +22,7 @@ function ForgetPassword() {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/forgetpassword`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}forgetpassword`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ function Dashboard() {
       try {
         const user = jwtDecode(token);
         if (user) {
-          fetch(`${process.env.REACT_APP_API_URL}/dashboard`, {
+          fetch(`${process.env.REACT_APP_API_URL}dashboard`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,

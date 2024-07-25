@@ -22,7 +22,7 @@ function VerifyResetCode() {
         }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/verify-reset-code`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}verify-reset-code`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

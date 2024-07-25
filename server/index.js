@@ -23,7 +23,7 @@ let forgetLimiter = rateLimit({
     }});
 
 let limiter = rateLimit({
-    max:100,
+    max:150,
     windowMs: 60*60*1000,
     handler: (req, res) => {
         res.status(429).json({
@@ -46,8 +46,8 @@ app.use(sanitize()); //Sanitize NoSQL injection Attacks
 app.use(xssSanitize()); //Sanitize XSS injection Attacks
 
 
-app.use('/api/forgetpassword',forgetLimiter);
-app.use('/api',limiter);
+app.use('/forgetpassword',forgetLimiter);
+app.use('/',limiter);
 
 // DB
 mongoose.connect(process.env.MONGODB_URL, {
@@ -82,7 +82,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 
-app.post('/api/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const user = await userSchema.findOne({
         email: req.body.email,
     });
@@ -108,7 +108,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 
-app.get('/api/dashboard', async (req, res) => {
+app.get('/dashboard', async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1]; // token is sent as "Bearer token"
 
     if (!token) {
@@ -130,7 +130,7 @@ app.get('/api/dashboard', async (req, res) => {
 });
 
 
-app.post('/api/forgetpassword', async (req, res) => {
+app.post('/forgetpassword', async (req, res) => {
     const { email } = req.body;
     const user = await userSchema.findOne({ email });
 
@@ -169,7 +169,7 @@ app.post('/api/forgetpassword', async (req, res) => {
 });
 
 
-app.get('/api/verify-token/:token', async (req, res) => {
+app.get('/verify-token/:token', async (req, res) => {
     const { token } = req.params;
     const user = await userSchema.findOne({
         resetPasswordToken: token,
@@ -184,7 +184,7 @@ app.get('/api/verify-token/:token', async (req, res) => {
 });
 
 
-app.post('/api/forgetpassword/:token', async (req, res) => {
+app.post('/forgetpassword/:token', async (req, res) => {
     const { token } = req.params;
     const { password } = req.body;
     const user = await userSchema.findOne({
@@ -208,7 +208,7 @@ app.post('/api/forgetpassword/:token', async (req, res) => {
 
 
 // Verify the reset code
-app.post('/api/verify-reset-code', async (req, res) => {
+app.post('/verify-reset-code', async (req, res) => {
     const { email, code } = req.body;
 
     try {
@@ -229,9 +229,6 @@ app.post('/api/verify-reset-code', async (req, res) => {
     }
 });
 
-app.use('/',(req, res) => {
-    res.status(200).send('404 Page Not Found');
-  });
 
 
 app.use((req, res) => {
