@@ -214,6 +214,10 @@ app.post('/api/verify-reset-code', async (req, res) => {
     }
 });
 
+app.use('/',(req, res) => {
+    res.status(200).send('404 Page Not Found');
+  });
+
 
 app.use((req, res) => {
     res.status(404).send('404 Page Not Found');

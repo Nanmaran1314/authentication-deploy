@@ -7,6 +7,7 @@ import ResetPassword from './components/ResetPassword';
 import VerifyResetCode from './components/VerifyResetCode'; 
 import Error from './components/Error';
 import NotFoundPage from './components/NotFoundPage';
+import Main from './components/Main';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
 
         <main className="flex-grow flex items-center justify-center">
           <Routes>
+            <Route path="/" element={<Main/>}/>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
