@@ -53,7 +53,7 @@ mongoose.connect(process.env.MONGODB_URL, {
   });
 
 
-app.post('/api/register', async  (req, res) => {
+app.post('/register', async  (req, res) => {
     try {
         const newPass = await bcrypt.hash(req.body.password, 10);
         const user = await userSchema.create({
