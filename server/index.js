@@ -35,11 +35,11 @@ let limiter = rateLimit({
 
 // Middlewares
 app.use(cors({
-    origin: 'https://authentication-deploy-client.vercel.app', // Replace with your client URL
+    origin: 'https://authentication-deploy-client.vercel.app/', // Replace with your client URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust methods as needed
     allowedHeaders: ['Content-Type', 'Authorization'] // Adjust headers as needed
 }));
-app.use(express.json({limit:'20kb'})); // Middleware for JSON 
+app.use(express.json({limit:'50kb'})); // Middleware for JSON 
 app.use(helmet()); //Adding Security Headers
 app.use(sanitize()); //Sanitize NoSQL injection Attacks
 app.use(xssSanitize()); //Sanitize XSS injection Attacks
