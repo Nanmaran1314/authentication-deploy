@@ -38,30 +38,32 @@ function ResetPassword() {
       setMessage('Password does not meet the criteria');
       return;
     }
+    else {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}forgetpassword/${token}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ password }),
+        });
+
+        const data = await response.json();
+        setMessage(data.message || 'Password reset successful');
+
+        if (response.ok) {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Error during password reset:', error);
+        setMessage('An error occurred. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
     setIsLoading(true);
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}forgetpassword/${token}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password }),
-      });
-
-      const data = await response.json();
-      setMessage(data.message || 'Password reset successful');
-
-      if (response.ok) {
-        navigate('/login');
-      }
-    } catch (error) {
-      console.error('Error during password reset:', error);
-      setMessage('An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
   }
 
   return (
