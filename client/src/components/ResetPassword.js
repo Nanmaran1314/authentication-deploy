@@ -8,6 +8,8 @@ function ResetPassword() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 
   function sanitizeInput(input){
     return DOMPurify.sanitize(input);
@@ -18,6 +20,9 @@ function ResetPassword() {
 
     if (!password) {
       setMessage('Please enter your new password');
+      return;
+    } else if(!passwordRegex.test(password)){
+      setMessage('Password not met an criteria');
       return;
     }
 
