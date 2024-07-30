@@ -13,7 +13,7 @@ const xssSanitize = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 
 let forgetLimiter = rateLimit({
-    max:2,
+    max:10,
     windowMs: 60*60*1000,
     handler: (req, res) => {
         res.status(429).json({
